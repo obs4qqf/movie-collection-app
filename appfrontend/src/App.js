@@ -1,19 +1,34 @@
-import './App.css';
 import { useState, useEffect } from 'react'
+import SearchMovie from './components/SearchMovie'
+import Movies from './components/Movies'
 
 function App() {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => setData(data.message))
-  });
+  const [movieData, setMovieData] = useState([
+    {
+      id: 1,
+      title: "Movie 1",
+      genre: "Genre",
+      description: "Description"
+    },
+    {
+      id: 2,
+      title: "Movie 2",
+      genre: "Genre",
+      description: "Description"
+    },
+    {
+      id: 3,
+      title: "Movie 3",
+      genre: "Genre",
+      description: "Description"
+    }
+  ])
 
   return (
     <div className="App">
       <header className="App-header">
-        <p>{!data ? "No data to show" : data }</p>
+        <SearchMovie />
+        <Movies movieData={movieData} />
       </header>
     </div>
   );
