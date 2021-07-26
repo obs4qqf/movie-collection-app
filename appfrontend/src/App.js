@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import SearchMovie from './components/SearchMovie'
 import Movies from './components/Movies'
 
@@ -24,12 +24,14 @@ function App() {
     }
   ])
 
+  const addMovie = (movie) => {
+    setMovieData([...movieData, {id: 4, title: movie, genre: 'Genre', description: 'Desc'}])
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <SearchMovie />
-        <Movies movieData={movieData} />
-      </header>
+    <div className="app">
+      <SearchMovie addMovie={addMovie} />
+      <Movies movieData={movieData} />
     </div>
   );
 }
