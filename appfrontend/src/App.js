@@ -26,7 +26,7 @@ function App() {
   ])
 
   const addMovie = async (movie) => {
-    const res = await fetch(`http://localhost:5000/movie?title=${movie}`)
+    const res = await fetch(`/movie?title=${movie}`)
     const data = await res.json()
     console.log(data)
   }
