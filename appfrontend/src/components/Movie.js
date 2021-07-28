@@ -1,10 +1,10 @@
 const Movie = ({ movieData }) => {
-    const {id, title, genre, description} = movieData
+    const {id, title, image, description} = movieData
 
     return (
         <div className='movie'>
             <div>Title: {title}</div>
-            <div>Genre: {genre}</div>
+            <img src={image} alt={title+' Movie Poster'} width='100' />
             <div>Description: {description}</div>
         </div>
     )
