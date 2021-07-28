@@ -31,10 +31,15 @@ input {
 }
 
 .movie {
-  border: 1px solid #000000;
+  background-color: rgba(255,255,255,.4);
   border-radius: 5px;
-  margin: 10px 0px;
+  margin: 10px;
   padding: 10px;
+}
+
+.movie img {
+  float: left;
+  margin: 0px 10px 0px 0px;
 }
 
 .movies-grid {

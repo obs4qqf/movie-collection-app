@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import SearchMovie from './components/SearchMovie'
 import Movies from './components/Movies'
-import logo from './TMDbLogo.svg'
+import Credits from './components/Credits'
 
 function App() {
   const [movieData, setMovieData] = useState([])
@@ -14,6 +14,7 @@ function App() {
       return {
         id: result.id,
         title: result.title,
+        date: result.release_date,
         image: result.poster_path !== null ? 'https://image.tmdb.org/t/p/original/'+result.poster_path : null,
         description: result.overview.length > 280 ? result.overview.substring(0,280)+' ...Read More' : result.overview
       }
@@ -25,8 +26,7 @@ function App() {
     <div className="app">
       <SearchMovie addMovie={addMovie} />
       <Movies movieData={movieData} />
-      <h4>This product uses the TMDb API but is not endorsed or certified by TMDb.</h4>
-      <img src={logo} alt="TMDb Logo"/>
+      <Credits />
     </div>
   );
 }
