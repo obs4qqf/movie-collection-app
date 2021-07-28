@@ -4,7 +4,9 @@ const Movie = ({ movieData }) => {
     return (
         <div className='movie'>
             <div>Title: {title}</div>
-            <img src={image} alt={title+' Movie Poster'} width='100' />
+            {
+                image !== null && <img src={image} alt={title+' Movie Poster'} width='100' />
+            }
             <div>Description: {description}</div>
         </div>
     )

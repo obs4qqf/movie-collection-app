@@ -14,8 +14,8 @@ function App() {
       return {
         id: result.id,
         title: result.title,
-        image: 'https://image.tmdb.org/t/p/original/'+result.poster_path,
-        description: result.overview
+        image: result.poster_path !== null ? 'https://image.tmdb.org/t/p/original/'+result.poster_path : null,
+        description: result.overview.length > 280 ? result.overview.substring(0,280)+' ...Read More' : result.overview
       }
     })
     setMovieData(newMovies)
