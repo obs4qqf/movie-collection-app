@@ -1,6 +1,9 @@
-body {
+* {
   margin: 0;
   padding: 0;
+}
+
+body {
   background-color: #35a4ff;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -28,6 +31,10 @@ input {
   min-width: 20%;
   border: None;
   border-radius: 3px;
+}
+
+h3 {
+  font-weight: normal;
 }
 
 .movie {

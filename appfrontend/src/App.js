@@ -5,6 +5,7 @@ import Credits from './components/Credits'
 
 function App() {
   const [movieData, setMovieData] = useState([])
+  const [movieDetails, setMovieDetails] = useState({})
 
   const addMovie = async (movie) => {
     const res = await fetch(`/movie?title=${movie}`)
@@ -22,10 +23,14 @@ function App() {
     setMovieData(newMovies)
   }
 
+  const getDetails = async (id) => {
+
+  }
+
   return (
     <div className="app">
       <SearchMovie addMovie={addMovie} />
-      <Movies movieData={movieData} />
+      <Movies movieData={movieData} getDetails={getDetails} />
       <Credits />
     </div>
   );
