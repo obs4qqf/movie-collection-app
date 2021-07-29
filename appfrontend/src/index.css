@@ -4,20 +4,36 @@
 }
 
 body {
-  background-color: #35a4ff;
+  background-color: #93d0e2;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+  padding: 10px;
+  background-color: #168aad;
+  color: #FFF;
 }
 
 .app {
   margin: auto;
-  max-width: 40%;
+}
+
+h1 {
+  text-align: center;
+}
+
+#search-form {
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 button {
   margin: 0px 10px;
   padding: 10px;
   color: #FFF;
-  background-color: #08406e;
+  background-color: #52b69a;
   border: None;
   border-radius: 5px;
   cursor: pointer;
@@ -39,10 +55,11 @@ h3 {
 }
 
 .movie {
-  background-color: rgba(255,255,255,.4);
+  background-color: rgb(241, 243, 245);
   border-radius: 5px;
   margin: 10px;
   padding: 10px;
+  box-shadow: 0px 3px 6px 1px #184e77;
 }
 
 .movie img {
@@ -60,4 +77,11 @@ h3 {
   align-content: center;
   grid-template-columns: repeat(4, 300px);
   grid-template-rows: repeat(5, 400px);
+}
+
+footer {
+  padding: 30px;
+  margin: 10px 0px 0px 0px;
+  background-color: #168aad;
+  text-align: center;
 }
