@@ -1,4 +1,6 @@
-const MoviePage = ({title, date, runtime, country, genres, image, description}) => {
+const MoviePage = ({movieDetails}) => {
+    const {title, date, runtime, country, genres, image, description} = movieDetails
+
     return (
         <div>
             <h3><strong>Title:</strong> {title}</h3>
