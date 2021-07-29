@@ -1,4 +1,4 @@
-const MoviePage = ({movieDetails}) => {
+const MoviePage = ({backToMenu, movieDetails}) => {
     const {title, date, runtime, country, genres, image, description} = movieDetails
 
     return (
@@ -12,6 +12,7 @@ const MoviePage = ({movieDetails}) => {
                 image !== null && <img src={image} alt={title+' Movie Poster'} width='100' />
             }
             <p><strong>Description:</strong> {description}</p>
+            <button onClick={backToMenu}>Back</button>
         </div>
     )
 }
