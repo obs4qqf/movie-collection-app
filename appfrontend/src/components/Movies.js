@@ -1,9 +1,9 @@
 import Movie from './Movie'
 
-const Movies = ({ movieData }) => {
+const Movies = ({ getDetails, movieData }) => {
     return (
         <div className='movies-grid'>
-            {movieData.map((movie) => <Movie key={movie.id} movieData={movie} />)}
+            {movieData.map((movie) => <Movie key={movie.id} movieData={movie} getDetails={getDetails}/>)}
         </div>
     )
 }

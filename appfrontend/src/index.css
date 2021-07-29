@@ -20,6 +20,7 @@ button {
   background-color: #08406e;
   border: None;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 button:hover {
@@ -47,6 +48,10 @@ h3 {
 .movie img {
   float: left;
   margin: 0px 10px 0px 0px;
+}
+
+#movie-title:hover {
+  cursor: pointer;
 }
 
 .movies-grid {

@@ -7,13 +7,22 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 app.get('/movie', async (req, res) => {
-    const title = req.query.title
-    axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_KEY}&query=${title}`)
-       .then(answer => {
-           res.json(answer.data)
-       })
-       .catch(err => console.log(err.response));
+    const {title, id} = req.query
+    if (title !== undefined) {
+        axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_KEY}&query=${title}`)
+        .then(answer => {
+            res.json(answer.data)
+        })
+        .catch(err => console.log(err.response));
+    }
+    if (id !== undefined) {
+        axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.MOVIE_KEY}`)
+        .then(answer => res.json(answer.data))
+        .catch(err => console.log(err.response))
+    }
 })
+
+
 
 const PORT = process.env.PORT || 5000;
 

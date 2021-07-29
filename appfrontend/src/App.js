@@ -17,14 +17,19 @@ function App() {
         title: result.title,
         date: result.release_date,
         image: result.poster_path !== null ? 'https://image.tmdb.org/t/p/original/'+result.poster_path : null,
-        description: result.overview.length > 280 ? result.overview.substring(0,280)+' ...Read More' : result.overview
+        description: result.overview.length > 280 ? result.overview.substring(0,280) : result.overview
       }
     })
     setMovieData(newMovies)
   }
 
   const getDetails = async (id) => {
+    const res = await fetch(`/movie?id=${id}`)
+    const data = await res.json()
+    console.log(data)
+    // const details = {
 
+    // }
   }
 
   return (

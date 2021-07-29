@@ -3,7 +3,7 @@ const Movie = ({ getDetails, movieData }) => {
 
     return (
         <div className='movie'>
-            <h3 onclick={()=>getDetails(id)}><strong>Title:</strong> {title}</h3>
+            <h3 id='movie-title' onClick={()=>getDetails(id)}><strong>Title:</strong> {title}</h3>
             <h3><strong>Date:</strong> {date}</h3>
             {
                 image !== null && <img src={image} alt={title+' Movie Poster'} width='100' />
