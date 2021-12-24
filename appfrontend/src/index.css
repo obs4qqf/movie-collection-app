@@ -4,18 +4,40 @@
 }
 
 body {
-  background-color: #93d0e2;
+  background-color: #f6f9f8;
   font-family: Arial, Helvetica, sans-serif;
+  color: #424444;
 }
 
 header {
   padding: 10px;
-  background-color: #168aad;
+  background-color: #41BFA3;
   color: #FFF;
 }
 
 .app {
   margin: auto;
+}
+
+.app #introduction {
+  margin: 100px 0px;
+  text-align: center;
+}
+
+#introduction p {
+  display: inline;
+  font-size: 30px;
+}
+
+#introduction h1 {
+  display: inline;
+}
+
+#search-error {
+  text-align: center;
+  color: #ffffff;
+  background-color: #F5536D;
+  line-height: 30px;
 }
 
 h1 {
@@ -33,14 +55,14 @@ button {
   margin: 0px 10px;
   padding: 10px;
   color: #FFF;
-  background-color: #52b69a;
+  background-color: #424444;
   border: None;
   border-radius: 5px;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #2cceff;
+  background-color: #212222;
 }
 
 input {
@@ -55,11 +77,11 @@ h3 {
 }
 
 .movie {
-  background-color: rgb(241, 243, 245);
+  background-color: #fff;
   border-radius: 5px;
   margin: 10px;
   padding: 10px;
-  box-shadow: 0px 3px 6px 1px #184e77;
+  box-shadow: 0px 3px 6px 1px #424444;
 }
 
 .movie img {
@@ -82,6 +104,6 @@ h3 {
 footer {
   padding: 30px;
   margin: 10px 0px 0px 0px;
-  background-color: #168aad;
+  background-color: #41BFA3;
   text-align: center;
 }

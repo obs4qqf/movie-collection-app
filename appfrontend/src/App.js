@@ -8,21 +8,29 @@ function App() {
   const [movieData, setMovieData] = useState([])
   const [movieDetails, setMovieDetails] = useState({})
   const [showMovieDetails, setShowMovieDetails] = useState(false)
+  const [showHomeScreen, setShowHomeScreen] = useState(true)
+  const [searchError, setSearchError] = useState(false)
 
   const addMovie = async (movie) => {
-    const res = await fetch(`/movie?title=${movie}`)
-    const data = await res.json()
-    console.log(data)
-    const newMovies = data.results.map(result => {
-      return {
-        id: result.id,
-        title: result.title,
-        date: result.release_date,
-        image: result.poster_path !== null ? 'https://image.tmdb.org/t/p/original'+result.poster_path : null,
-        description: result.overview.length > 280 ? result.overview.substring(0,280) : result.overview
-      }
-    })
-    setMovieData(newMovies)
+    if (movie != '') {
+      const res = await fetch(`/movie?title=${movie}`)
+      const data = await res.json()
+      console.log(data)
+      const newMovies = data.results.map(result => {
+        return {
+          id: result.id,
+          title: result.title,
+          date: result.release_date,
+          image: result.poster_path !== null ? 'https://image.tmdb.org/t/p/original'+result.poster_path : null,
+          description: result.overview.length > 280 ? result.overview.substring(0,280) : result.overview
+        }
+      })
+      setMovieData(newMovies)
+      setShowHomeScreen(false)
+      setSearchError(false)
+    } else {
+      setSearchError(true)
+    }
   }
 
   const getDetails = async (id) => {
@@ -62,6 +70,19 @@ function App() {
   return (
     <div className="app">
       <SearchMovie addMovie={addMovie} />
+      {searchError ?
+        <p id="search-error">
+          Enter a keyword to search
+        </p>
+        : <></>
+      }
+      {showHomeScreen ?
+        <div id="introduction">
+          <p>👋 </p>
+          <h1>Welcome! Search for a movie!</h1>
+        </div>
+        : <></>
+      }
       {!showMovieDetails ? <Movies movieData={movieData} getDetails={getDetails} />
         : <MoviePage movieDetails={movieDetails} backToMenu={() => setShowMovieDetails(false)}/>}
       <Credits />
