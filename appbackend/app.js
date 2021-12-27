@@ -7,9 +7,9 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 app.get('/movie', async (req, res) => {
-    const {title, id} = req.query
+    const {title, page, id} = req.query
     if (title !== undefined) {
-        axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_KEY}&query=${title}`)
+        axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_KEY}&query=${title}&page=${page}`)
         .then(answer => {
             res.json(answer.data)
         })

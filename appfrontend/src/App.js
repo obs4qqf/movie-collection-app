@@ -5,6 +5,7 @@ import MoviePage from './components/MoviePage'
 import Credits from './components/Credits'
 
 function App() {
+  const [currentSearch, setCurrentSearch] = useState("")
   const [movieData, setMovieData] = useState([])
   const [movieDetails, setMovieDetails] = useState({})
   const [showMovieDetails, setShowMovieDetails] = useState(false)
@@ -13,10 +14,11 @@ function App() {
   const [currentPageNumber, setCurrentPageNumber] = useState(0)
   const [pageNumbers, setPageNumbers] = useState([])
   const [totalPages, setTotalPages] = useState(-1)
+  const [totalResults, setTotalResults] = useState(-1)
 
-  const addMovie = async (movie) => {
+  const addMovie = async (movie, page = 1) => {
     if (movie != '') {
-      const res = await fetch(`/movie?title=${movie}`)
+      const res = await fetch(`/movie?title=${movie}&page=${page}`)
       const data = await res.json()
       console.log(data)
       const newMovies = data.results.map(result => {
@@ -33,7 +35,10 @@ function App() {
       setSearchError(false)
       setTotalPages(data.total_pages)
       getPageNumbers(data.total_pages)
-      setCurrentPageNumber(1)
+      setCurrentPageNumber(page)
+      setCurrentSearch(movie)
+      setTotalResults(data.total_results)
+      window.scrollTo(0, 0) // Auto-scroll to top of window after keyword search or page change
     } else {
       setSearchError(true)
     }
@@ -81,9 +86,13 @@ function App() {
     setPageNumbers(pageNumsList)
   }
 
+  const getNewPage = (event) => {
+    addMovie(currentSearch, event.target.id)
+  }
+
   const displayPageNumbers = pageNumbers.map(number => {
     return(
-      <li>
+      <li key={number} id={number} className={currentPageNumber == number ? "current-page": ""} onClick={getNewPage}>
         {number}
       </li>
     )
@@ -105,15 +114,17 @@ function App() {
         </div>
         : <></>
       }
-      {!showMovieDetails 
+      {!showMovieDetails
         ? 
           <>
+            <p id="total-results">{totalResults} Found Results For "{currentSearch}"</p>
             <Movies movieData={movieData} getDetails={getDetails} />
-            <ul>
+            <ul id="pagination">
               {displayPageNumbers}
             </ul>
           </>
-        : <MoviePage movieDetails={movieDetails} backToMenu={() => setShowMovieDetails(false)}/>}
+        : <MoviePage movieDetails={movieDetails} backToMenu={() => setShowMovieDetails(false)}/>
+      }
       <Credits />
     </div>
   );

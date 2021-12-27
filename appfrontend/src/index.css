@@ -72,6 +72,12 @@ input {
   border-radius: 3px;
 }
 
+#total-results {
+  text-align: center;
+  margin: 20px;
+  font-size: 20px;
+}
+
 h3 {
   font-weight: normal;
 }
@@ -99,6 +105,24 @@ h3 {
   align-content: center;
   grid-template-columns: repeat(4, 300px);
   grid-template-rows: repeat(5, 400px);
+}
+
+#pagination {
+  text-align: center;
+}
+
+#pagination li {
+  display: inline;
+  margin: 10px;
+  font-size: 20px;
+}
+
+#pagination li:hover {
+  cursor: pointer;
+}
+
+#pagination .current-page {
+  font-weight: bold;
 }
 
 footer {
