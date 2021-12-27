@@ -8,7 +8,10 @@ const Movie = ({ getDetails, movieData }) => {
             {
                 image !== null && <img src={image} alt={title+' Movie Poster'} width='100' />
             }
-            <p><strong>Description:</strong> {description}</p>
+            {description.length <= 280 ? 
+                <p><strong>Description:</strong> {description}</p> :
+                <p><strong>Description:</strong> {description.substring(0,280) + '...'}</p>
+            }
         </div>
     )
 }
