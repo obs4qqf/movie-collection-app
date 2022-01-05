@@ -3,6 +3,7 @@ import SearchMovie from './components/SearchMovie'
 import Movies from './components/Movies'
 import MoviePage from './components/MoviePage'
 import Credits from './components/Credits'
+import SignIn from './components/SignIn'
 
 function App() {
   const [currentSearch, setCurrentSearch] = useState("")
@@ -107,6 +108,7 @@ function App() {
         </p>
         : <></>
       }
+      <SignIn />
       {showHomeScreen ?
         <div id="introduction">
           <p>👋 </p>
