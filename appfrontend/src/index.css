@@ -131,3 +131,10 @@ footer {
   background-color: #41BFA3;
   text-align: center;
 }
+
+#signup-error {
+  text-align: center;
+  color: #ffffff;
+  background-color: #F5536D;
+  line-height: 30px;
+}
