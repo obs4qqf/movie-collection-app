@@ -33,13 +33,6 @@ header {
   display: inline;
 }
 
-#search-error {
-  text-align: center;
-  color: #ffffff;
-  background-color: #F5536D;
-  line-height: 30px;
-}
-
 h1 {
   text-align: center;
 }
@@ -132,9 +125,22 @@ footer {
   text-align: center;
 }
 
-#signup-error {
+.sign-in-box {
+  text-align: center;
+}
+
+.sign-in-form {
+  margin: 10px;
+}
+
+.error {
   text-align: center;
   color: #ffffff;
   background-color: #F5536D;
   line-height: 30px;
+}
+
+#switch-log-in-form:hover {
+  cursor: pointer;
+  color: #41BFA3;
 }
