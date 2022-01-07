@@ -140,6 +140,10 @@ footer {
   line-height: 30px;
 }
 
+.error p {
+  display: inline;
+}
+
 #switch-log-in-form:hover {
   cursor: pointer;
   color: #41BFA3;

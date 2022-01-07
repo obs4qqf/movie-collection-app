@@ -1,15 +1,13 @@
 import {useState} from 'react';
 import app from '../firebase/firebase';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import Error from './Error'
 
-const SignIn = () => {
+const SignIn = ({getUser}) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordRepeat, setPasswordRepeat] = useState("");
     const [passwordMatch, setPasswordMatch] = useState(true);
     const [createAccount, setCreateAccount] = useState(false);
-    const [loggedIn, setLoggedIn] = useState(false);
 
     const handleLogin = (event) => {
         event.preventDefault();
@@ -17,7 +15,9 @@ const SignIn = () => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 console.log(userCredential.user);
-                setLoggedIn(true);
+                getUser(true);
+                setEmail("");
+                setPassword("");
             })
             .catch((error) => {
                 console.log(error.message);
@@ -36,7 +36,7 @@ const SignIn = () => {
             createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     console.log(userCredential.user);
-                    setLoggedIn(true);
+                    getUser(true);
                 })
                 .catch((error) => {
                     console.log(error.message);
@@ -48,8 +48,12 @@ const SignIn = () => {
 
     return (
         <div className="sign-in-box">
-            {!passwordMatch && <Error errorMsg="Error: Passwords do not match" />}
-            {!passwordMatch && <p id="signup-error">Error: Passwords do not match</p>}
+            {!passwordMatch && 
+                <div className="error">
+                    <p onClick={() => setPasswordMatch(true)}>❌  </p>
+                    <p>Error: Passwords do not match</p>
+                </div>
+            }
 
             {!createAccount && 
                 <form onSubmit={handleLogin} className="sign-in-form">

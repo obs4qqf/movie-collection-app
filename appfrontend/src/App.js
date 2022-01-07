@@ -16,6 +16,7 @@ function App() {
   const [pageNumbers, setPageNumbers] = useState([])
   const [totalPages, setTotalPages] = useState(-1)
   const [totalResults, setTotalResults] = useState(-1)
+  const [signedIn, setSignedIn] = useState({})
 
   const addMovie = async (movie, page = 1) => {
     if (movie != '') {
@@ -99,16 +100,16 @@ function App() {
     )
   })
 
+  const getUser = (userSignedIn) => {
+    setSignedIn(userSignedIn)
+  }
+
   return (
     <div className="app">
       <SearchMovie addMovie={addMovie} />
-      {searchError ?
-        <p id="search-error">
-          Enter a keyword to search
-        </p>
-        : <></>
-      }
-      <SignIn />
+      {searchError && <p className="error">Enter a keyword to search</p>}
+      <SignIn getUser={getUser}/>
+      {signedIn && <p>Sign Out</p>}
       {showHomeScreen ?
         <div id="introduction">
           <p>👋 </p>
@@ -116,16 +117,19 @@ function App() {
         </div>
         : <></>
       }
-      {!showMovieDetails
-        ? 
-          <>
-            <p id="total-results">{totalResults} Found Results For "{currentSearch}"</p>
-            <Movies movieData={movieData} getDetails={getDetails} />
-            <ul id="pagination">
-              {displayPageNumbers}
-            </ul>
-          </>
-        : <MoviePage movieDetails={movieDetails} backToMenu={() => setShowMovieDetails(false)}/>
+
+      {!showMovieDetails && !showHomeScreen &&
+        <>
+        <p id="total-results">{totalResults} Found Results For "{currentSearch}"</p>
+        <Movies movieData={movieData} getDetails={getDetails} />
+        <ul id="pagination">
+          {displayPageNumbers}
+        </ul>
+      </>
+      }
+
+      {showMovieDetails && 
+        <MoviePage movieDetails={movieDetails} backToMenu={() => setShowMovieDetails(false)}/>
       }
       <Credits />
     </div>
