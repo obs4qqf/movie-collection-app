@@ -1,13 +1,15 @@
 import {useState} from 'react';
 import app from '../firebase/firebase';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { useUser } from "./UserContext";
 
-const SignIn = ({getUser}) => {
+const SignIn = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordRepeat, setPasswordRepeat] = useState("");
     const [passwordMatch, setPasswordMatch] = useState(true);
     const [createAccount, setCreateAccount] = useState(false);
+    const userCurrent = useUser();
 
     const handleLogin = (event) => {
         event.preventDefault();
@@ -15,7 +17,6 @@ const SignIn = ({getUser}) => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 console.log(userCredential.user);
-                getUser(true);
                 setEmail("");
                 setPassword("");
             })
@@ -36,7 +37,6 @@ const SignIn = ({getUser}) => {
             createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     console.log(userCredential.user);
-                    getUser(true);
                 })
                 .catch((error) => {
                     console.log(error.message);
@@ -45,6 +45,16 @@ const SignIn = ({getUser}) => {
         setPassword("");
         setPasswordRepeat("");
     }
+
+    const signOutUser = () => {
+        const auth = getAuth();
+        signOut(auth).then(() => {
+          console.log("Signed Out");
+          console.log(auth.currentUser);
+        }).catch((error) => {
+          console.log(error);
+        })
+      }
 
     return (
         <div className="sign-in-box">
@@ -90,6 +100,7 @@ const SignIn = ({getUser}) => {
             }
 
             <p id="switch-log-in-form" onClick={() => setCreateAccount(!createAccount)}>{createAccount ? "Log In" : "Sign Up"}</p>
+            {userCurrent != "" && <p id="signout" onClick={signOutUser}>Sign Out</p>}
         </div>
     )
 }

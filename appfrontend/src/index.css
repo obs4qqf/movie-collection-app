@@ -148,3 +148,8 @@ footer {
   cursor: pointer;
   color: #41BFA3;
 }
+
+#signout:hover {
+  cursor: pointer;
+  color: #41BFA3;
+}

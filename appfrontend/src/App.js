@@ -4,6 +4,7 @@ import Movies from './components/Movies'
 import MoviePage from './components/MoviePage'
 import Credits from './components/Credits'
 import SignIn from './components/SignIn'
+import { UserProvider } from './components/UserContext'
 
 function App() {
   const [currentSearch, setCurrentSearch] = useState("")
@@ -16,7 +17,6 @@ function App() {
   const [pageNumbers, setPageNumbers] = useState([])
   const [totalPages, setTotalPages] = useState(-1)
   const [totalResults, setTotalResults] = useState(-1)
-  const [signedIn, setSignedIn] = useState({})
 
   const addMovie = async (movie, page = 1) => {
     if (movie != '') {
@@ -100,38 +100,35 @@ function App() {
     )
   })
 
-  const getUser = (userSignedIn) => {
-    setSignedIn(userSignedIn)
-  }
-
   return (
     <div className="app">
-      <SearchMovie addMovie={addMovie} />
-      {searchError && <p className="error">Enter a keyword to search</p>}
-      <SignIn getUser={getUser}/>
-      {signedIn && <p>Sign Out</p>}
-      {showHomeScreen ?
-        <div id="introduction">
-          <p>👋 </p>
-          <h1>Welcome! Search for a movie!</h1>
-        </div>
-        : <></>
-      }
+      <UserProvider>
+        <SearchMovie addMovie={addMovie} />
+        {searchError && <p className="error">Enter a keyword to search</p>}
+        <SignIn />
+        {showHomeScreen ?
+          <div id="introduction">
+            <p>👋 </p>
+            <h1>Welcome! Search for a movie!</h1>
+          </div>
+          : <></>
+        }
 
-      {!showMovieDetails && !showHomeScreen &&
-        <>
-        <p id="total-results">{totalResults} Found Results For "{currentSearch}"</p>
-        <Movies movieData={movieData} getDetails={getDetails} />
-        <ul id="pagination">
-          {displayPageNumbers}
-        </ul>
-      </>
-      }
+        {!showMovieDetails && !showHomeScreen &&
+          <>
+          <p id="total-results">{totalResults} Found Results For "{currentSearch}"</p>
+          <Movies movieData={movieData} getDetails={getDetails} />
+          <ul id="pagination">
+            {displayPageNumbers}
+          </ul>
+        </>
+        }
 
-      {showMovieDetails && 
-        <MoviePage movieDetails={movieDetails} backToMenu={() => setShowMovieDetails(false)}/>
-      }
-      <Credits />
+        {showMovieDetails && 
+          <MoviePage movieDetails={movieDetails} backToMenu={() => setShowMovieDetails(false)}/>
+        }
+        <Credits />
+      </UserProvider>
     </div>
   );
 }
