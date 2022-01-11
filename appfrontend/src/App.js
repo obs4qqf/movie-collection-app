@@ -17,6 +17,7 @@ function App() {
   const [pageNumbers, setPageNumbers] = useState([])
   const [totalPages, setTotalPages] = useState(-1)
   const [totalResults, setTotalResults] = useState(-1)
+  const [showFavorites, setShowFavorites] = useState(false)
 
   const addMovie = async (movie, page = 1) => {
     if (movie != '') {
@@ -100,18 +101,28 @@ function App() {
     )
   })
 
+  const getFavorites = () => {
+    setShowFavorites(!showFavorites)
+    setShowHomeScreen(showFavorites ? true : false)
+    setShowMovieDetails(false)
+  }
+
+  const setMovies = (data) => {
+    setMovieData(data);
+  }
+
   return (
     <div className="app">
       <UserProvider>
         <SearchMovie addMovie={addMovie} />
         {searchError && <p className="error">Enter a keyword to search</p>}
-        <SignIn />
-        {showHomeScreen ?
+        <SignIn getFavorites={getFavorites} showFavorites={showFavorites} setMovies={setMovies}/>
+
+        {showHomeScreen &&
           <div id="introduction">
             <p>👋 </p>
             <h1>Welcome! Search for a movie!</h1>
           </div>
-          : <></>
         }
 
         {!showMovieDetails && !showHomeScreen &&

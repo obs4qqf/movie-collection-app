@@ -22,7 +22,7 @@ export function UserProvider({ children }) {
 
         const removeObserver = onAuthStateChanged(auth, (user) => {
             if (user) {
-                setUserCurrent(user.uid);
+                setUserCurrent(user);
             } else {
                 setUserCurrent("");
             }
