@@ -1,6 +1,6 @@
 import Movie from './Movie'
 
-const Movies = ({ getDetails, movieData }) => {
+const MovieDashboard = ({ getDetails, movieData }) => {
     return (
         <div className='movies-grid'>
             {movieData.map((movie) => <Movie key={movie.id} movieData={movie} getDetails={getDetails}/>)}
@@ -8,4 +8,4 @@ const Movies = ({ getDetails, movieData }) => {
     )
 }
 
-export default Movies
+export default MovieDashboard

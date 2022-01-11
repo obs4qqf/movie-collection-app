@@ -1,7 +1,7 @@
 import { getAuth, getIdToken } from "firebase/auth";
 import { useUser } from "./UserContext";
 
-const MoviePage = ({backToMenu, movieDetails}) => {
+const MovieDetails = ({backToMenu, movieDetails}) => {
     const {title, date, runtime, country, genres, image, description} = movieDetails
     const userCurrent = useUser();
 
@@ -47,4 +47,4 @@ const MoviePage = ({backToMenu, movieDetails}) => {
     )
 }
 
-export default MoviePage
+export default MovieDetails

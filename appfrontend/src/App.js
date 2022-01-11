@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import SearchMovie from './components/SearchMovie'
-import Movies from './components/Movies'
-import MoviePage from './components/MoviePage'
+import MovieDashboard from './components/MovieDashboard'
+import MovieDetails from './components/MovieDetails'
 import Credits from './components/Credits'
 import SignIn from './components/SignIn'
 import { UserProvider } from './components/UserContext'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 
 function App() {
   const [currentSearch, setCurrentSearch] = useState("")
@@ -128,7 +129,7 @@ function App() {
         {!showMovieDetails && !showHomeScreen &&
           <>
           <p id="total-results">{totalResults} Found Results For "{currentSearch}"</p>
-          <Movies movieData={movieData} getDetails={getDetails} />
+          <MovieDashboard movieData={movieData} getDetails={getDetails} />
           <ul id="pagination">
             {displayPageNumbers}
           </ul>
@@ -136,7 +137,7 @@ function App() {
         }
 
         {showMovieDetails && 
-          <MoviePage movieDetails={movieDetails} backToMenu={() => setShowMovieDetails(false)}/>
+          <MovieDetails movieDetails={movieDetails} backToMenu={() => setShowMovieDetails(false)}/>
         }
         <Credits />
       </UserProvider>
