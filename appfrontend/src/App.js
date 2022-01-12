@@ -1,146 +1,40 @@
-import { useState } from 'react'
-import SearchMovie from './components/SearchMovie'
-import MovieDashboard from './components/MovieDashboard'
-import MovieDetails from './components/MovieDetails'
-import Credits from './components/Credits'
-import SignIn from './components/SignIn'
-import { UserProvider } from './components/UserContext'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { UserProvider } from './components/UserContext';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Home from './components/Home';
+import MovieDashboard from './components/MovieDashboard';
+import SignIn from './components/SignIn';
+import Credits from './components/Credits';
 
 function App() {
-  // const [currentSearch, setCurrentSearch] = useState("")
-  // const [movieData, setMovieData] = useState([])
-  // const [movieDetails, setMovieDetails] = useState({})
-  // const [showMovieDetails, setShowMovieDetails] = useState(false)
-  // const [showHomeScreen, setShowHomeScreen] = useState(true)
-  // const [searchError, setSearchError] = useState(false)
-  // const [currentPageNumber, setCurrentPageNumber] = useState(0)
-  // const [pageNumbers, setPageNumbers] = useState([])
-  // const [totalPages, setTotalPages] = useState(-1)
-  // const [totalResults, setTotalResults] = useState(-1)
-  // const [showFavorites, setShowFavorites] = useState(false)
-
-  // const addMovie = async (movie, page = 1) => {
-  //   if (movie != '') {
-  //     const res = await fetch(`/movie?title=${movie}&page=${page}`)
-  //     const data = await res.json()
-  //     console.log(data)
-  //     const newMovies = data.results.map(result => {
-  //       return {
-  //         id: result.id,
-  //         title: result.title,
-  //         date: result.release_date,
-  //         image: result.poster_path !== null ? 'https://image.tmdb.org/t/p/original'+result.poster_path : null,
-  //         description: result.overview
-  //       }
-  //     })
-  //     setMovieData(newMovies)
-  //     // setShowHomeScreen(false)
-  //     setSearchError(false)
-  //     setTotalPages(data.total_pages)
-  //     getPageNumbers(data.total_pages)
-  //     setCurrentPageNumber(page)
-  //     setCurrentSearch(movie)
-  //     setTotalResults(data.total_results)
-  //     window.scrollTo(0, 0) // Auto-scroll to top of window after keyword search or page change
-  //   } else {
-  //     setSearchError(true)
-  //   }
-  // }
-
-  // const getDetails = async (id) => {
-  //   if (movieDetails === {} || movieDetails.id !== id) {
-  //     const res = await fetch(`/movie?id=${id}`)
-  //     const data = await res.json()
-  //     console.log(data)
-
-  //     let genreNames = ""
-  //     let counter = 1
-  //     if (data.genres.length !== 0) {
-  //       data.genres.forEach(genre => {
-  //         if (counter === 1) {
-  //           genreNames = genre.name
-  //         } else {
-  //           genreNames += (", "+genre.name)
-  //         }
-  //         counter += 1
-  //       })
-  //     }
-
-  //     const details = {
-  //       id: data.id,
-  //       title: data.original_title,
-  //       date: data.release_date ? data.release_date : "",
-  //       runtime: data.runtime ? data.runtime : "",
-  //       country: data.production_countries.length !== 0 ? data.production_countries[0].name : "",
-  //       genres: data.genres.length !== 0 ? genreNames : "",
-  //       image: data.poster_path !== null ? 'https://image.tmdb.org/t/p/original'+data.poster_path : null,
-  //       description: data.overview ? data.overview : ""
-  //     }
-  //     setMovieDetails(details)
-  //   }
-  //   // setShowMovieDetails(true)
-  // }
-
-  // const getPageNumbers = (totalPageNum) => {
-  //   let pageNumsList = []
-  //   for (let i = 1; i < totalPageNum + 1; i++) {
-  //     pageNumsList.push(i)
-  //   }
-  //   setPageNumbers(pageNumsList)
-  // }
-
-  // const getNewPage = (event) => {
-  //   addMovie(currentSearch, event.target.id)
-  // }
-
-  // const displayPageNumbers = pageNumbers.map(number => {
-  //   return(
-  //     <li key={number} id={number} className={currentPageNumber == number ? "current-page": ""} onClick={getNewPage}>
-  //       {number}
-  //     </li>
-  //   )
-  // })
-
-  // const getFavorites = () => {
-  //   setShowFavorites(!showFavorites)
-  //   setShowHomeScreen(showFavorites ? true : false)
-  //   setShowMovieDetails(false)
-  // }
-
-  // const setMovies = (data) => {
-  //   setMovieData(data);
-  // }
-
   return (
     <div className="app">
-      <UserProvider>
-        {/* <SearchMovie addMovie={addMovie} /> */}
-        {/* {searchError && <p className="error">Enter a keyword to search</p>} */}
-        {/* <SignIn getFavorites={getFavorites} showFavorites={showFavorites} setMovies={setMovies}/> */}
+      <Router>
+        <UserProvider>
+          <div>
+            <nav>
+              <ul>
+                <li>
+                  <Link to="/">Home</Link>
+                </li>
+                <li>
+                  <Link to="/movie">Movies</Link>
+                </li>
+                <li>
+                  <Link to="/login">Login</Link>
+                </li>
+              </ul>
+            </nav>
 
-        {/* {showHomeScreen &&
-          <div id="introduction">
-            <p>👋 </p>
-            <h1>Welcome! Search for a movie!</h1>
-          </div>
-        } */}
+            <Routes>
+              <Route exact path="/" element={<Home />} />
+              <Route path="/movie" element={<MovieDashboard />} />
+              <Route path="/login" element={<SignIn />} />
+            </Routes>
 
-        {/* {!showMovieDetails && !showHomeScreen && */}
-          {/* <>
-          <p id="total-results">{totalResults} Found Results For "{currentSearch}"</p>
-          <MovieDashboard movieData={movieData} getDetails={getDetails} />
-          <ul id="pagination">
-            {displayPageNumbers}
-          </ul>
-        </> */}
-        {/* } */}
-
-        {/* {showMovieDetails &&  */}
-          {/* <MovieDetails movieDetails={movieDetails} backToMenu={() => setShowMovieDetails(false)}/> */}
-        {/* } */}
-        <Credits />
-      </UserProvider>
+            </div>
+            <Credits />
+        </UserProvider>
+      </Router>
     </div>
   );
 }

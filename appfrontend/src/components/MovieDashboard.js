@@ -1,5 +1,6 @@
-import Movie from './Movie'
-
+import { useState } from 'react';
+import Movie from './Movie';
+import SearchMovie from './SearchMovie';
 
 const MovieDashboard = () => {
     //all new
@@ -76,7 +77,8 @@ const MovieDashboard = () => {
             <p id="total-results">{totalResults} Found Results For "{currentSearch}"</p>
             {/* <MovieDashboard movieData={movieData} getDetails={getDetails} /> */}
             <div className='movies-grid'>
-                {movieData.map((movie) => <Movie key={movie.id} movieData={movie} getDetails={getDetails}/>)}
+                {/* {movieData.map((movie) => <Movie key={movie.id} movieData={movie} getDetails={getDetails}/>)} */}
+                {movieData.map((movie) => <Movie key={movie.id} movieData={movie} />)}
             </div>
             <ul id="pagination">
                 {displayPageNumbers}
