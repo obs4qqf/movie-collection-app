@@ -1,21 +1,27 @@
 import { useState } from 'react';
 import Movie from './Movie';
 import SearchMovie from './SearchMovie';
+import { useNavigate, useLocation } from "react-router-dom";
 
 const MovieDashboard = () => {
     //all new
-    const [searchError, setSearchError] = useState(false)
-  const [currentPageNumber, setCurrentPageNumber] = useState(0)
-  const [pageNumbers, setPageNumbers] = useState([])
-  const [totalPages, setTotalPages] = useState(-1)
-  const [totalResults, setTotalResults] = useState(-1)
-  const [movieData, setMovieData] = useState([])
-  const [currentSearch, setCurrentSearch] = useState("")
-
+    const [searchError, setSearchError] = useState(false);
+    const [currentPageNumber, setCurrentPageNumber] = useState(0);
+    const [pageNumbers, setPageNumbers] = useState([]);
+    const [totalPages, setTotalPages] = useState(-1);
+    const [totalResults, setTotalResults] = useState(-1);
+    const [movieData, setMovieData] = useState([]);
+    const [currentSearch, setCurrentSearch] = useState("");
+    const navigate = useNavigate();
+    const location = useLocation();
 
     //new
     const addMovie = async (movie, page = 1) => {
         if (movie != '') {
+            navigate({
+            pathname: '/search',
+            search: `?query=${movie.replace(/\s+/g, '-').toLowerCase()}&page=${page}`,
+            state: "hello, I'm an email" });
           const res = await fetch(`/movie?title=${movie}&page=${page}`)
           const data = await res.json()
           console.log(data)
@@ -40,7 +46,7 @@ const MovieDashboard = () => {
         } else {
           setSearchError(true)
         }
-      }
+    }
 
     //new
     const getPageNumbers = (totalPageNum) => {
@@ -49,12 +55,12 @@ const MovieDashboard = () => {
           pageNumsList.push(i)
         }
         setPageNumbers(pageNumsList)
-      }
+    }
     
-      //new
-      const getNewPage = (event) => {
+    //new
+    const getNewPage = (event) => {
         addMovie(currentSearch, event.target.id)
-      }
+    }
 
     //new
     // const setMovies = (data) => {
@@ -68,7 +74,7 @@ const MovieDashboard = () => {
             {number}
           </li>
         )
-      })
+    })
 
     return (
         <>

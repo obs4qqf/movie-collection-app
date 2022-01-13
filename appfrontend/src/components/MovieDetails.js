@@ -1,6 +1,7 @@
 import { getAuth, getIdToken } from "firebase/auth";
 import { useUser } from "./UserContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 const MovieDetails = () => {
     // const {title, date, runtime, country, genres, image, description} = movieDetails
@@ -15,6 +16,11 @@ const MovieDetails = () => {
     const [genres, setGenres] = useState("")
     const [image, setImage] = useState("")
     const [description, setDescription] = useState("")
+    const params = useParams();
+
+    useEffect(() => {
+        
+    }, []);
 
     const favoriteMovie = async () => {
         userCurrent.getIdToken().then(async (idToken) => {
@@ -41,7 +47,7 @@ const MovieDetails = () => {
         });
     }
 
-    //new
+    // //new
     // const getDetails = async (id) => {
     //     if (movieDetails === {} || movieDetails.id !== id) {
     //       const res = await fetch(`/movie?id=${id}`)
@@ -91,7 +97,7 @@ const MovieDetails = () => {
                 image !== null && <img src={image} alt={title+' Movie Poster'} width='100' />
             }
             <p><strong>Description:</strong> {description}</p>
-            <button onClick={backToMenu}>Back</button>
+            {/* <button onClick={backToMenu}>Back</button> */}
         </div>
     )
 }

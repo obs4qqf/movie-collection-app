@@ -1,9 +1,17 @@
-const Movie = ({ getDetails, movieData }) => {
-    const {id, title, date, image, description} = movieData
+import { useNavigate } from "react-router-dom";
+
+const Movie = ({ movieData }) => {
+    const {id, title, date, image, description} = movieData;
+    const navigate = useNavigate();
+
+    const getDetails = () => {
+        navigate(`/movie/${id}`);
+    }
 
     return (
         <div className='movie'>
-            <h3 id='movie-title' onClick={()=>getDetails(id)}><strong>Title:</strong> {title}</h3>
+            {/* <h3 id='movie-title' onClick={()=>getDetails(id)}><strong>Title:</strong> {title}</h3> */}
+            <h3 id='movie-title' onClick={getDetails}><strong>Title:</strong> {title}</h3>
             <h3><strong>Date:</strong> {date}</h3>
             {
                 image !== null && <img src={image} alt={title+' Movie Poster'} width='100' />
