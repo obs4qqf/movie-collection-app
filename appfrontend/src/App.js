@@ -5,8 +5,21 @@ import MovieDashboard from './components/MovieDashboard';
 import SignIn from './components/SignIn';
 import Credits from './components/Credits';
 import MovieDetails from './components/MovieDetails';
+import Account from './components/Account';
+import { getAuth } from 'firebase/auth';
+import { useState, useEffect } from "react";
 
 function App() {
+  const [signedIn, setSignedIn] = useState(false);
+
+  useEffect(() => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user) {
+      setSignedIn(true);
+    }
+  });
+
   return (
     <div className="app">
       <Router>
@@ -23,6 +36,7 @@ function App() {
                 <li>
                   <Link to="/login">Login</Link>
                 </li>
+                {signedIn && <Link to="/account">Account</Link>}
               </ul>
             </nav>
 
@@ -31,6 +45,7 @@ function App() {
               <Route path="/search" element={<MovieDashboard />} />
               <Route path="/login" element={<SignIn />} />
               <Route path="/movie/:id" element={<MovieDetails />} />
+              <Route path="/account" element={<Account />} />
             </Routes>
 
             </div>

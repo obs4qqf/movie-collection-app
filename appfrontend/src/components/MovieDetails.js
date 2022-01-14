@@ -1,14 +1,11 @@
-import { getAuth, getIdToken } from "firebase/auth";
+import { getIdToken } from "firebase/auth";
 import { useUser } from "./UserContext";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 const MovieDetails = () => {
-    // const {title, date, runtime, country, genres, image, description} = movieDetails
     const userCurrent = useUser();
-    //new
-    // const [movieDetails, setMovieDetails] = useState({})
-    //new below
+    const [id, setId] = useState("");
     const [title, setTitle] = useState("");
     const [date, setDate] = useState("")
     const [runtime, setRuntime] = useState("")
@@ -17,9 +14,11 @@ const MovieDetails = () => {
     const [image, setImage] = useState("")
     const [description, setDescription] = useState("")
     const params = useParams();
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
-        
+        getDetails(params.id);
     }, []);
 
     const favoriteMovie = async () => {
@@ -47,45 +46,43 @@ const MovieDetails = () => {
         });
     }
 
-    // //new
-    // const getDetails = async (id) => {
-    //     if (movieDetails === {} || movieDetails.id !== id) {
-    //       const res = await fetch(`/movie?id=${id}`)
-    //       const data = await res.json()
-    //       console.log(data)
+    const getDetails = async (newId) => {
+        if (id !== newId) {
+          const res = await fetch(`/movie?id=${newId}`)
+          const data = await res.json()
+          console.log(data)
     
-    //       let genreNames = ""
-    //       let counter = 1
-    //       if (data.genres.length !== 0) {
-    //         data.genres.forEach(genre => {
-    //           if (counter === 1) {
-    //             genreNames = genre.name
-    //           } else {
-    //             genreNames += (", "+genre.name)
-    //           }
-    //           counter += 1
-    //         })
-    //       }
+          let genreNames = ""
+          let counter = 1
+          if (data.genres.length !== 0) {
+            data.genres.forEach(genre => {
+              if (counter === 1) {
+                genreNames = genre.name
+              } else {
+                genreNames += (", "+genre.name)
+              }
+              counter += 1
+            })
+          }
     
-    //       const details = {
-    //         id: data.id,
-    //         title: data.original_title,
-    //         date: data.release_date ? data.release_date : "",
-    //         runtime: data.runtime ? data.runtime : "",
-    //         country: data.production_countries.length !== 0 ? data.production_countries[0].name : "",
-    //         genres: data.genres.length !== 0 ? genreNames : "",
-    //         image: data.poster_path !== null ? 'https://image.tmdb.org/t/p/original'+data.poster_path : null,
-    //         description: data.overview ? data.overview : ""
-    //       }
-    //       setMovieDetails(details)
-    //     }
-    //     // setShowMovieDetails(true)
-    //   }
+          setId(data.id);
+          setTitle(data.original_title);
+          setDate(data.release_date ? data.release_date : "");
+          setRuntime(data.runtime ? data.runtime : "");
+          setCountry(data.production_countries.length !== 0 ? data.production_countries[0].name : "");
+          setGenres(data.genres.length !== 0 ? genreNames : "");
+          setImage(data.poster_path !== null ? 'https://image.tmdb.org/t/p/original'+data.poster_path : null);
+          setDescription(data.overview ? data.overview : "");
+        }
+    }
+
+    const backToMenu = () => {
+        const query = location.state.query;
+        const page = location.state.page;
+        navigate(`/search?query=${query.replace(/\s+/g, '-').toLowerCase()}&page=${page}`)
+    }
 
     return (
-        // new
-        // <MovieDetails movieDetails={movieDetails} backToMenu={() => setShowMovieDetails(false)}/>
-
         <div>
             <button onClick={favoriteMovie}>Favorite Movie</button>
             <h3><strong>Title:</strong> {title}</h3>
@@ -97,7 +94,7 @@ const MovieDetails = () => {
                 image !== null && <img src={image} alt={title+' Movie Poster'} width='100' />
             }
             <p><strong>Description:</strong> {description}</p>
-            {/* <button onClick={backToMenu}>Back</button> */}
+            <button onClick={backToMenu}>Back</button>
         </div>
     )
 }

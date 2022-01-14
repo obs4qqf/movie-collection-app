@@ -13,15 +13,6 @@ app.use(express.json());
 app.get('/movie', async (req, res) => {
     const {title, page, id} = req.query
     if (title !== undefined) {
-        database.collection("movie").add({
-            name: "Life of Pets"
-        })
-        .then(() => {
-            console.log("Movie created");
-        })
-        .catch((error) => {
-            console.error("Error adding document: ", error);
-        });
         axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_KEY}&query=${title}&page=${page}`)
         .then(answer => {
             res.json(answer.data)

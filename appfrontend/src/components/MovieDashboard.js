@@ -1,10 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Movie from './Movie';
 import SearchMovie from './SearchMovie';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const MovieDashboard = () => {
-    //all new
     const [searchError, setSearchError] = useState(false);
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const [pageNumbers, setPageNumbers] = useState([]);
@@ -12,16 +11,24 @@ const MovieDashboard = () => {
     const [totalResults, setTotalResults] = useState(-1);
     const [movieData, setMovieData] = useState([]);
     const [currentSearch, setCurrentSearch] = useState("");
-    const navigate = useNavigate();
-    const location = useLocation();
+    let navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
 
-    //new
+    useEffect(() => {
+      if (searchParams.get("query")) {
+        const newQuery = searchParams.get("query").replace(/\-+/g, ' ');
+        addMovie(newQuery, searchParams.get("page"));
+        console.log("inside loop");
+      }
+    }, []);
+
+    const navigateSearch = (movie, page = 1) => {
+      navigate(`/search?query=${movie.replace(/\s+/g, '-').toLowerCase()}&page=${page}`);
+      addMovie(movie, page);
+    }
+
     const addMovie = async (movie, page = 1) => {
         if (movie != '') {
-            navigate({
-            pathname: '/search',
-            search: `?query=${movie.replace(/\s+/g, '-').toLowerCase()}&page=${page}`,
-            state: "hello, I'm an email" });
           const res = await fetch(`/movie?title=${movie}&page=${page}`)
           const data = await res.json()
           console.log(data)
@@ -35,7 +42,6 @@ const MovieDashboard = () => {
             }
           })
           setMovieData(newMovies)
-          // setShowHomeScreen(false)
           setSearchError(false)
           setTotalPages(data.total_pages)
           getPageNumbers(data.total_pages)
@@ -48,7 +54,6 @@ const MovieDashboard = () => {
         }
     }
 
-    //new
     const getPageNumbers = (totalPageNum) => {
         let pageNumsList = []
         for (let i = 1; i < totalPageNum + 1; i++) {
@@ -56,18 +61,11 @@ const MovieDashboard = () => {
         }
         setPageNumbers(pageNumsList)
     }
-    
-    //new
+
     const getNewPage = (event) => {
-        addMovie(currentSearch, event.target.id)
+        navigateSearch(currentSearch, event.target.id)
     }
 
-    //new
-    // const setMovies = (data) => {
-    //     setMovieData(data);
-    // }
-
-    //new
     const displayPageNumbers = pageNumbers.map(number => {
         return(
           <li key={number} id={number} className={currentPageNumber == number ? "current-page": ""} onClick={getNewPage}>
@@ -78,13 +76,13 @@ const MovieDashboard = () => {
 
     return (
         <>
-            <SearchMovie addMovie={addMovie} />
+            <SearchMovie navigateSearch={navigateSearch} />
             {searchError && <p className="error">Enter a keyword to search</p>}
             <p id="total-results">{totalResults} Found Results For "{currentSearch}"</p>
-            {/* <MovieDashboard movieData={movieData} getDetails={getDetails} /> */}
             <div className='movies-grid'>
-                {/* {movieData.map((movie) => <Movie key={movie.id} movieData={movie} getDetails={getDetails}/>)} */}
-                {movieData.map((movie) => <Movie key={movie.id} movieData={movie} />)}
+                {movieData.map((movie) => 
+                  <Movie key={movie.id} movieData={movie} queryData={{query: currentSearch, page: currentPageNumber}} />
+                )}
             </div>
             <ul id="pagination">
                 {displayPageNumbers}

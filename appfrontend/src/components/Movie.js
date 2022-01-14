@@ -1,16 +1,16 @@
 import { useNavigate } from "react-router-dom";
 
-const Movie = ({ movieData }) => {
+const Movie = ({ movieData, queryData }) => {
     const {id, title, date, image, description} = movieData;
+    const { query, page } = queryData;
     const navigate = useNavigate();
 
     const getDetails = () => {
-        navigate(`/movie/${id}`);
+        navigate(`/movie/${id}`, {state: {query: query, page: page}});
     }
 
     return (
         <div className='movie'>
-            {/* <h3 id='movie-title' onClick={()=>getDetails(id)}><strong>Title:</strong> {title}</h3> */}
             <h3 id='movie-title' onClick={getDetails}><strong>Title:</strong> {title}</h3>
             <h3><strong>Date:</strong> {date}</h3>
             {
