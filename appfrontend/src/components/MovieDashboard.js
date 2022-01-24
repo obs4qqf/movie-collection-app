@@ -75,19 +75,23 @@ const MovieDashboard = () => {
     })
 
     return (
-        <>
-            <SearchMovie navigateSearch={navigateSearch} />
-            {searchError && <p className="error">Enter a keyword to search</p>}
-            <p id="total-results">{totalResults} Found Results For "{currentSearch}"</p>
-            <div className='movies-grid'>
-                {movieData.map((movie) => 
-                  <Movie key={movie.id} movieData={movie} queryData={{query: currentSearch, page: currentPageNumber}} />
-                )}
-            </div>
-            <ul id="pagination">
-                {displayPageNumbers}
-            </ul>
-        </>
+        <div>
+          <SearchMovie navigateSearch={navigateSearch} />
+          {searchError && <p className="error">Enter a keyword to search</p>}
+          {currentSearch != "" &&
+            <>
+              <p id="total-results">{totalResults} Found Results For "{currentSearch}"</p>
+              <div className='movies-grid'>
+                  {movieData.map((movie) => 
+                    <Movie key={movie.id} movieData={movie} queryData={{query: currentSearch, page: currentPageNumber}} />
+                  )}
+              </div>
+              <ul id="pagination">
+                  {displayPageNumbers}
+              </ul>
+            </>
+          }
+        </div>
     )
 }
 
