@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
 
-const Movie = ({ movieData, queryData }) => {
+const Movie = ({ movieData, queryData={ query: "", page: 0}, favorites=false }) => {
     const {id, title, date, image, description} = movieData;
     const { query, page } = queryData;
     const navigate = useNavigate();
 
     const getDetails = () => {
-        navigate(`/movie/${id}`, {state: {query: query, page: page}});
+        navigate(`/movie/${id}`, {state: {query: query, page: page, favorites: favorites}});
     }
 
     return (

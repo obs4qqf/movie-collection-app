@@ -1,7 +1,7 @@
 const express = require("express");
 const axios = require("axios")
 const app = express();
-const database = require('./firebase').database;
+const db = require('./firebase').database;
 const auth = require('./firebase').auth;
 
 if (process.env.NODE_ENV !== 'production') {
@@ -29,10 +29,10 @@ app.get('/movie', async (req, res) => {
 app.get('/favorites', async (req, res) => {
     auth.verifyIdToken(req.headers.authorization.substring(7)).then(decodedToken => {
         const uid = decodedToken.uid;
-        database.collection('favorites').where('uid', '==', uid).get().then(snapshot => {
+        db.collection('favorites').where('uid', '==', uid).get().then(snapshot => {
             const movies = [];
             snapshot.forEach(doc => {
-                movies.push({...doc.data(), id: doc.id})
+                movies.push({...doc.data(), docid: doc.id})
             });
             res.json(movies);
         });
@@ -40,10 +40,10 @@ app.get('/favorites', async (req, res) => {
 })
 
 app.post('/favorites', async (req, res) => {
-    const {token, title, date, runtime, country, genres, image, description} = req.body;
+    const {id, token, title, date, runtime, country, genres, image, description} = req.body;
     auth.verifyIdToken(token).then(decodedToken => {
         const uid = decodedToken.uid;
-        database.collection('favorites').add({
+        db.collection('favorites').add({
             uid: uid,
             title: title,
             date: date,
@@ -51,9 +51,18 @@ app.post('/favorites', async (req, res) => {
             country: country,
             genres: genres,
             image: image,
-            description: description
+            description: description,
+            id: id
         })
         res.json(title);
+    }).catch(error => console.log(error));
+});
+
+app.delete('/favorites/:id', async (req, res) => {
+    auth.verifyIdToken(token).then(decodedToken => {
+        const uid = decodedToken.uid;
+        const res = db.collection('favorites').doc(req.params.id).delete();
+        res.json(res);
     }).catch(error => console.log(error));
 });
 

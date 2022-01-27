@@ -1,30 +1,37 @@
-
+import { useUser } from "./UserContext";
+import { useState, useEffect } from "react";
+import Movie from "./Movie";
 
 const Favorites = () => {
+    const userCurrent = useUser();
+    const [favorites, setFavorites] = useState([]);
 
-    // const retrieveFavorites = async () => {
-    //     if (!showFavorites) {
-    //         userCurrent.getIdToken().then(async (idToken) => {
-    //             const res = await fetch(`/favorites`, {
-    //                 method: 'GET',
-    //                 headers: {
-    //                     'Authorization': 'Bearer ' + idToken
-    //                 }
-    //             });
-    //             const data = await res.json();
-    //             setMovies(data);
-    //         }).catch(error => {
-    //             console.log(error);
-    //         });
-    //     }
-    //     getFavorites();
-    // }
+    useEffect(async () => {
+        await retrieveFavorites();
+    }, []);
+
+    const retrieveFavorites = async () => {
+        userCurrent.getIdToken().then(async (idToken) => {
+            const res = await fetch(`/favorites`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + idToken
+                }
+            });
+            const data = await res.json();
+            setFavorites(data);
+        }).catch(error => {
+            console.log(error);
+        });
+    }
 
     return (
-        //new
-        // <SignIn getFavorites={getFavorites} showFavorites={showFavorites} setMovies={setMovies}/>
         <div>
-            {/* {userCurrent != "" && <p onClick={retrieveFavorites}>{showFavorites ? "Close Favorites" : "Get Favorites"}</p>} */}
+            <div className='movies-grid'>
+                {favorites.map((favorite) => 
+                    <Movie key={favorite.id} movieData={favorite} favorites={true} />
+                )}
+            </div>
         </div>
     )
 }

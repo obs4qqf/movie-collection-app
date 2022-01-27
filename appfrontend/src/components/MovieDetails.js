@@ -36,7 +36,8 @@ const MovieDetails = () => {
                     country: country,
                     genres: genres,
                     image: image,
-                    description: description
+                    description: description,
+                    id: id
                 })
             });
             const data = await res.json();
@@ -79,7 +80,12 @@ const MovieDetails = () => {
     const backToMenu = () => {
         const query = location.state.query;
         const page = location.state.page;
-        navigate(`/search?query=${query.replace(/\s+/g, '-').toLowerCase()}&page=${page}`)
+        const favorites = location.state.favorites;
+        if (favorites) {
+            navigate('/account/favorites')
+        } else {
+            navigate(`/search?query=${query.replace(/\s+/g, '-').toLowerCase()}&page=${page}`)
+        }
     }
 
     return (
